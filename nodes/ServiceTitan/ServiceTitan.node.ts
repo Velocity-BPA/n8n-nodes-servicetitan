@@ -1607,11 +1607,11 @@ export class ServiceTitan implements INodeType {
 				}
 
 				returnData.push(...result);
-			} catch (error) {
+			} catch (error: any) {
 				if (this.continueOnFail()) {
 					returnData.push({
 						json: {
-							error: (error as Error).message,
+							error: error.message,
 						},
 						pairedItem: { item: i },
 					});
@@ -2013,27 +2013,4 @@ async function executeReportOperation(
 		case 'getConversionReport':
 			return reportActions.getConversionReport.call(this, index);
 		case 'getCustomReport':
-			return reportActions.getCustomReport.call(this, index);
-		default:
-			throw new NodeOperationError(this.getNode(), `Unknown report operation: ${operation}`);
-	}
-}
-
-async function executeUserOperation(
-	this: IExecuteFunctions,
-	operation: string,
-	index: number,
-): Promise<INodeExecutionData[]> {
-	switch (operation) {
-		case 'listUsers':
-			return userActions.listUsers.call(this, index);
-		case 'getUser':
-			return userActions.getUser.call(this, index);
-		case 'getUserRoles':
-			return userActions.getUserRoles.call(this, index);
-		case 'getUserPermissions':
-			return userActions.getUserPermissions.call(this, index);
-		default:
-			throw new NodeOperationError(this.getNode(), `Unknown user operation: ${operation}`);
-	}
-}
+			return reportActions.get
